@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin �?� GadGets4all</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="logo">G4A</div>
+          <div class="name">GadGets4all</div>
+        </div>
+        <nav class="nav">
+          <a href="/access-portal-a94h2f1d" aria-current="page">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container admin-page">
+      <h1>Add Product</h1>
+      <form id="product-form" class="card" enctype="multipart/form-data">
+        <div class="form-grid">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Product name" required />
+          </label>
+          <label>
+            <span>Price (USD)</span>
+            <input type="number" name="price" step="0.01" placeholder="0.00" required />
+          </label>
+        </div>
+        <label>
+          <span>Description</span>
+          <textarea name="description" rows="4" placeholder="Write a short description..."></textarea>
+        </label>
+        
+        <label>
+          <span>Images (up to 8)</span>
+          <input type="file" name="images" accept="image/*" multiple />
+        </label>
+        <label>
+          <span>Video (optional)</span>
+          <input type="file" name="video" accept="video/*" />
+        </label>
+        <div class="actions">
+          <button type="submit" class="btn primary">Add Product</button>
+          <span id="status" class="status" role="status"></span>
+        </div>
+      </form>
+
+      <section>
+        <h2>Current Products</h2>
+        <div id="admin-product-list" class="product-grid condensed"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Ac <span id="year"></span> GadGets4all �?" All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="/js/admin.js"></script>
+  </body>
+  </html>
+

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product • GadGets4all</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="logo">G4A</div>
+          <div class="name">GadGets4all</div>
+        </div>
+        <nav class="nav"></nav>
+      </div>
+    </header>
+
+    <div class="container crumbs" aria-label="Breadcrumb">
+      
+      <span class="sep">/</span>
+      <span id="crumbName">Product</span>
+    </div>
+
+    <main class="container product-page">
+      <div class="product-media card media-card" id="media">
+        <!-- Images and video injected here -->
+      </div>
+      <div class="product-info card info-card">
+        <h1 id="name">Loading...</h1>
+        <div class="chips"><span class="chip in-stock">In stock</span></div>
+        <p class="price" id="price"></p>
+        <p id="description"></p>
+        <div class="actions">
+          <a id="buyBtn" class="btn primary" href="#" target="_blank" rel="noopener">Buy</a>
+          <button id="addCartBtn" class="btn" type="button">Add to Cart</button>
+        </div>
+        <!-- Share row removed for a more focused, professional layout -->
+        <div class="trust-row">
+          <span>✓ Secure checkout</span>
+          <span>✓ Fast support</span>
+          <span>✓ Easy returns</span>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> GadGets4all — All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Mobile sticky buy bar -->
+    <div class="buy-bar" aria-live="polite">
+      <div class="container buy-bar-inner">
+        <div class="buy-price" id="mbPrice">$0.00</div>
+        <div class="buy-actions">
+          <button id="mbCart" class="btn" type="button">Add to Cart</button>
+          <a id="mbBuy" class="btn primary" href="#" target="_blank" rel="noopener">Buy</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/product.js"></script>
+  </body>
+  </html>

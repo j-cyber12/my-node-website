@@ -1,0 +1,21 @@
+{
+  "name": "gadgets4all",
+  "version": "1.0.0",
+  "description": "GadGets4all website with product listing, product pages, and admin upload.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "gadgets",
+    "express"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

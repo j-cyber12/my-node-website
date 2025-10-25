@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GadGets4all — Trendy Products & Gifts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <section class="banner" aria-label="Promotions">
+      <div class="container">
+        <header class="site-header in-banner">
+          <div class="header-inner">
+            <div class="brand">
+              <div class="logo">G4A</div>
+              <div class="name">GadGets4all</div>
+            </div>
+            <nav class="nav"></nav>
+          </div>
+        </header>
+        <!-- Phone-only hero (clean, single block) -->
+        <div class="phone-hero" role="region" aria-label="Mobile hero">
+          <div class="ph-inner">
+            <div class="ph-copy">
+              <span class="ph-kicker">Phone Essentials</span>
+              <h1 class="ph-title">Upgrade your daily carry</h1>
+              <p class="ph-sub">Cases, chargers, audio — picked for you</p>
+              <a class="btn primary" href="#featured">Shop Now</a>
+            </div>
+            <div class="ph-art" aria-hidden="true">
+              <svg class="ph-svg" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="p1" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#fff" stop-opacity="0.9"/>
+                    <stop offset="1" stop-color="#fff" stop-opacity="0.4"/>
+                  </linearGradient>
+                </defs>
+                <g filter="url(#f0)">
+                  <rect x="30" y="10" rx="18" ry="18" width="80" height="120" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="rgba(255,255,255,0.06)"/>
+                  <rect x="40" y="22" width="60" height="90" rx="12" fill="url(#p1)"/>
+                  <rect x="62" y="116" width="16" height="6" rx="3" fill="rgba(255,255,255,0.7)"/>
+                </g>
+                <filter id="f0" x="0" y="0" width="140" height="140">
+                  <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="rgba(0,0,0,0.25)"/>
+                </filter>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="hero card banner-illustrated">
+          <div class="glow" aria-hidden="true"></div>
+          <div class="hero-content">
+            <div class="title-lines">
+              <span class="t1">Trending</span>
+              <span class="t2">Tech &amp; Gifts</span>
+            </div>
+            <div class="phone-circle" aria-hidden="true"></div>
+            <p>Fresh gadgets, smart accessories and deals you cannot miss.</p>
+            <div class="dots-row" aria-hidden="true">
+              <span class="dot is-active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="actions">
+              <a class="btn cta-yellow" href="#featured">Get Started</a>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="promo-banner" aria-label="Store highlights">
+      <div class="container">
+        <div class="ticker" role="marquee" aria-live="polite">
+          <div class="track">
+            <span class="item">New arrivals every week</span>
+            <span class="dot">•</span>
+            <span class="item">Great prices on trending tech</span>
+            <span class="dot">•</span>
+            <span class="item">Gift‑worthy picks for every occasion</span>
+            <span class="dot">•</span>
+            <span class="item">Free shipping on select items</span>
+            <span class="dot">•</span>
+            <span class="item">Fast support and secure shopping</span>
+
+            <!-- duplicate content for seamless loop -->
+            <span class="item">New arrivals every week</span>
+            <span class="dot">•</span>
+            <span class="item">Great prices on trending tech</span>
+            <span class="dot">•</span>
+            <span class="item">Gift‑worthy picks for every occasion</span>
+            <span class="dot">•</span>
+            <span class="item">Free shipping on select items</span>
+            <span class="dot">•</span>
+            <span class="item">Fast support and secure shopping</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="container">
+      <h2 id="featured" class="section-title">Featured Products</h2>
+      <div id="product-grid" class="product-grid" aria-live="polite"></div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> GadGets4all — All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="/js/banner.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+  </html>
+

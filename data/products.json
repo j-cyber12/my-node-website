@@ -1,0 +1,66 @@
+[
+  {
+    "id": "bc41364f-b094-486f-a956-3394ec8b003f",
+    "name": "Steering wheel tray",
+    "price": 4.99,
+    "description": "Steering wheel tray ",
+    "inStock": true,
+    "images": [
+      "/uploads/images/img_3023-1761378431616.jpeg",
+      "/uploads/images/img_3024-1761378431734.jpeg",
+      "/uploads/images/img_3022-1761378431818.jpeg"
+    ],
+    "video": "/uploads/videos/v12044gd0000cfn9l0bc77u5fft0mdug-1761378431923.mp4",
+    "createdAt": 1761378434160
+  },
+  {
+    "id": "bf0d13e2-7b81-4867-bc80-2207c9756409",
+    "name": "Money box with counter",
+    "price": 8.99,
+    "description": "Upgrade your savings ",
+    "inStock": false,
+    "images": [
+      "/uploads/images/img_1361-1761378271452.jpeg"
+    ],
+    "video": "/uploads/videos/-7810031838556998091-1761378271948.mp4",
+    "createdAt": 1761378291391
+  },
+  {
+    "id": "eaac029b-c98d-4883-8dad-d56639aca0f9",
+    "name": "period belt",
+    "price": 9.99,
+    "description": "fjkqsdhfjkasdna;jkdvnqurh oqewhnfjbnjbdvjsabdkj",
+    "inStock": true,
+    "images": [
+      "/uploads/images/photo_1_2025-10-14_06-43-20-1761307495003.jpg",
+      "/uploads/images/photo_2_2025-10-14_06-43-20-1761307495004.jpg",
+      "/uploads/images/photo_3_2025-10-14_06-43-20-1761307495004.jpg"
+    ],
+    "video": "/uploads/videos/img_2243-1761307495006.MP4",
+    "createdAt": 1761307495013
+  },
+  {
+    "id": "demo-1",
+    "name": "Aurora Bluetooth Speaker",
+    "price": 39.99,
+    "description": "Compact wireless speaker with vibrant LED glow and crisp 360° sound.",
+    "images": [
+      "/placeholder.svg"
+    ],
+    "video": null,
+    "createdAt": 1710000000000,
+    "inStock": false
+  },
+  {
+    "id": "demo-2",
+    "name": "Magnetic Wireless Charger Stand",
+    "price": 24.5,
+    "description": "Fast-charge stand with adjustable angle — perfect for desks and nightstands.",
+    "images": [
+      "/placeholder.svg"
+    ],
+    "video": null,
+    "createdAt": 1710000100000,
+    "inStock": false
+  }
+]
