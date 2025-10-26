@@ -26,7 +26,7 @@
 
   async function load() {
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch(`/api/products?ts=${Date.now()}`);
       const items = await res.json();
       grid.innerHTML = '';
       if (!items.length) {

@@ -9,6 +9,21 @@
   --shadow: 0 10px 25px rgba(109, 40, 217, 0.15);
   --radius: 14px;
   --safe-top: env(safe-area-inset-top, 0px);
+  /* Modern colorful palette for banners */
+  --banner-g1: #ff80bf; /* pink */
+  --banner-g2: #9089fc; /* violet */
+  --banner-g3: #34d399; /* emerald */
+  --banner-g4: #22d3ee; /* cyan */
+  --banner-gradient:
+    radial-gradient(100% 120% at 0% 0%, rgba(255,255,255,0.30), rgba(255,255,255,0) 60%),
+    radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.18), rgba(255,255,255,0) 55%),
+    linear-gradient(120deg, var(--banner-g1), var(--banner-g2) 40%, var(--banner-g3) 72%, var(--banner-g4));
+  --banner-bg: #f8f7ff; /* fallback when gradients disabled */
+  /* Promo gradient (harmonized with banner) */
+  --promo-g1: #7c3aed; /* primary-600 */
+  --promo-g2: #db2777; /* rose */
+  --promo-g3: #2563eb; /* blue */
+  --promo-gradient: linear-gradient(90deg, var(--promo-g1), var(--promo-g2) 50%, var(--promo-g3));
 }
 
 * { box-sizing: border-box; }
@@ -39,6 +54,10 @@ body {
 .name { font-weight: 700; letter-spacing: 0.2px; }
 .nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; }
 .nav a[aria-current="page"], .nav a:hover { color: var(--primary-600); }
+/* Inline brand inside banner (all viewports) */
+.brand-inline { display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+.brand-inline .logo { width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--primary-600)); color: #fff; font-weight: 800; box-shadow: var(--shadow); font-size: 0.95rem; }
+.brand-inline .name { font-weight: 800; letter-spacing: 0.2px; }
 /* Header nav when in banner over gradient */
 .site-header.in-banner .nav a { color: #fff; }
 .site-header.in-banner .nav a[aria-current="page"], .site-header.in-banner .nav a:hover { color: #fef3c7; }
@@ -48,15 +67,8 @@ body {
 .banner { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--primary-100), rgba(237,233,254,0)); }
 .banner::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 72px; background: linear-gradient(180deg, rgba(124,58,237,0.25), rgba(124,58,237,0)); pointer-events: none; }
 .banner .container { position: relative; padding: 4rem 0 1rem; }
-.site-header.in-banner {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(var(--safe-top) + 0.6rem);
-  background: transparent;
-  border-bottom: 0;
-  backdrop-filter: none;
-  z-index: 60;
-}
+/* Hide header within banner on all devices; brand is shown inside hero */
+.site-header.in-banner { display: none !important; }
 .site-header.in-banner .name { color: #ffffff; }
 .site-header.in-banner .nav a { color: #ffffff; }
 .site-header.in-banner .nav a[aria-current="page"],
@@ -101,9 +113,9 @@ body {
 .ph-art { display: grid; place-items: end; padding: 0 0.2rem 0.2rem 0; opacity: 0.95; }
 .ph-svg { filter: drop-shadow(0 10px 24px rgba(0,0,0,0.25)); }
 
-/* Hide promo ticker on phones to avoid double-banner feel */
+/* Show promo ticker on phones too */
 @media (max-width: 680px) {
-  .promo-banner { display: none; }
+  .promo-banner { display: block; }
 }
 /* Motion + depth */
 .hero-art .bag, .hero-art .monitor, .hero-art .tile, .hero-art .badge, .hero-art .rating, .hero-art .bubble { will-change: transform; }
@@ -189,13 +201,13 @@ body {
   .banner .actions .btn { width: 100%; text-align: center; }
 }
 
-.promo-banner { position: relative; background: var(--primary); color: white; overflow: hidden; }
+.promo-banner { position: relative; background: var(--promo-gradient); color: white; overflow: hidden; }
 .promo-banner .container { padding: 0; }
 .promo-banner .ticker { position: relative; overflow: hidden; }
 .promo-banner .ticker::before,
 .promo-banner .ticker::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px; z-index: 2; pointer-events: none; }
-.promo-banner .ticker::before { left: 0; background: linear-gradient(90deg, rgba(109,40,217,1), rgba(109,40,217,0)); }
-.promo-banner .ticker::after { right: 0; background: linear-gradient(270deg, rgba(109,40,217,1), rgba(109,40,217,0)); }
+.promo-banner .ticker::before { left: 0; background: linear-gradient(90deg, rgba(124,58,237,1), rgba(124,58,237,0)); }
+.promo-banner .ticker::after { right: 0; background: linear-gradient(270deg, rgba(37,99,235,1), rgba(37,99,235,0)); }
 .promo-banner .track { display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0; font-weight: 700; white-space: nowrap; animation: promo-scroll 28s linear infinite; }
 .promo-banner .item { opacity: 0.95; }
 .promo-banner .dot { opacity: 0.8; }
@@ -212,11 +224,30 @@ body {
 
 .section-title { margin: 1.4rem 0 0.6rem; }
 
+/* Hide the phone-only hero block */
+.phone-hero { display: none !important; }
+
+/* Modern colorful banner background */
+.banner { background: var(--banner-gradient) !important; }
+.banner::before { display: none !important; }
+.hero.banner-illustrated { background: #fff !important; color: var(--text) !important; border: 1px solid #eef2ff; box-shadow: var(--shadow); }
+.site-header.in-banner { position: sticky !important; inset: auto !important; top: var(--safe-top); background: rgba(255,255,255,0.96) !important; border-bottom: 1px solid #f3f4f6 !important; backdrop-filter: blur(8px) !important; }
+.site-header.in-banner .name, .site-header.in-banner .nav a { color: var(--text) !important; }
+.site-header.in-banner .nav a[aria-current="page"], .site-header.in-banner .nav a:hover { color: var(--primary-600) !important; }
+
+/* Clean hero: remove ornaments for a minimal look */
+.glow, .phone-circle, .dots-row { display: none !important; }
+
+@media (max-width: 480px) {
+  .hero { background: none !important; }
+  .hero::before { background: none !important; }
+}
+
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; align-items: stretch; }
 .product-grid.condensed { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 
 .card { background: var(--surface); border: 1px solid #eef2ff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; }
-.product-card { padding: 0; overflow: hidden; display: grid; grid-template-rows: auto 1fr; height: 100%; transition: transform .15s ease, box-shadow .2s ease; text-decoration: none; color: inherit; }
+.product-card { position: relative; padding: 0; overflow: hidden; display: grid; grid-template-rows: auto 1fr; height: 100%; transition: transform .15s ease, box-shadow .2s ease; text-decoration: none; color: inherit; }
 .product-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(109, 40, 217, 0.18); }
 .thumb { position: relative; aspect-ratio: 1 / 1; background: #f8f7ff; display: grid; place-items: center; overflow: hidden; border-bottom: 1px solid #eef2ff; }
 .badge-out { position: absolute; top: 6px; left: 6px; background: #991b1b; color: #fff; font-weight: 700; font-size: 11px; padding: 2px 6px; border-radius: 999px; }
@@ -225,6 +256,15 @@ body {
 .product-name { font-weight: 600; overflow: hidden; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.25; min-height: 2.6em; flex: 1; min-width: 0; }
 .price { color: var(--primary-600); font-weight: 700; flex-shrink: 0; }
 .product-card a { text-decoration: none; color: inherit; }
+
+/* Admin menu (kebab) on product cards */
+.admin-menu { position: absolute; top: 6px; left: 6px; z-index: 5; }
+.kebab-btn { appearance: none; border: 0; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: rgba(255,255,255,0.9); color: #111827; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+.kebab-btn:hover { filter: brightness(0.98); }
+.admin-menu .menu { position: absolute; top: 34px; left: 0; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 12px 24px rgba(0,0,0,0.12); padding: 6px; min-width: 120px; }
+.admin-menu .menu .menu-item { width: 100%; text-align: left; background: transparent; border: 0; padding: 8px 10px; border-radius: 8px; font-weight: 700; color: #374151; cursor: pointer; }
+.admin-menu .menu .menu-item:hover { background: #f3f4f6; }
+.admin-menu .menu .menu-item.delete { color: #991b1b; }
 
 .site-footer { margin-top: 2rem; border-top: 1px solid #f3f4f6; }
 .site-footer .container { padding: 1rem 0; color: var(--muted); font-size: 0.95rem; }
@@ -307,12 +347,9 @@ input[type="text"], input[type="number"], textarea, input[type="file"] {
 /* Phone-specific adjustments */
 @media (max-width: 480px) {
   .container { width: calc(100% - 1rem); }
-  /* Make header sticky and legible on phones */
-  .site-header.in-banner { position: sticky; top: var(--safe-top); background: rgba(255,255,255,0.96); border-bottom: 1px solid #f3f4f6; backdrop-filter: blur(8px); }
-  .site-header.in-banner .name, .site-header.in-banner .nav a { color: var(--text); }
-  .site-header.in-banner .nav a[aria-current="page"], .site-header.in-banner .nav a:hover { color: var(--primary-600); }
-  /* Add space below the sticky header */
-  .banner .container { padding-top: calc(4.5rem + var(--safe-top)); padding-bottom: 1rem; }
+  /* Hide header on phones and show brand inside banner */
+  .site-header.in-banner { display: none !important; }
+  .banner .container { padding-top: calc(2rem + var(--safe-top)); padding-bottom: 1rem; }
   /* Modern mobile hero: full-bleed gradient card with overlay */
   .banner .glow, .hero-art { display: none !important; }
   .hero { position: relative; min-height: 320px; border: 0; box-shadow: none; border-radius: 18px; overflow: hidden; color: #fff; padding: 1.2rem 1rem 1rem; display: grid; align-content: end; background:
@@ -320,7 +357,7 @@ input[type="text"], input[type="number"], textarea, input[type="file"] {
     linear-gradient(135deg, #4c1d95, #7c3aed); }
   .hero::before { content: ""; position: absolute; inset: 0; background:
     radial-gradient(60% 60% at 80% 0%, rgba(255,255,255,0.18), transparent 60%),
-    url('/placeholder.svg') center/cover no-repeat; opacity: .18; pointer-events: none; }
+    url('/uploads/images/img_3023-1761378431616.jpeg') center/cover no-repeat; opacity: .18; pointer-events: none; }
   .hero-content { position: relative; text-align: center; }
   .hero-content h1 { line-height: 1.2; font-size: 1.6rem; color: #fff; font-weight: 800; letter-spacing: .2px; }
   .hero-content p { color: rgba(255,255,255,0.92); }
@@ -365,6 +402,11 @@ input[type="text"], input[type="number"], textarea, input[type="file"] {
 
   /* Admin form single-column on phones */
   .form-grid { grid-template-columns: 1fr; }
+  
+  /* Inline brand inside banner (phones) */
+  .brand-inline { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+  .brand-inline .logo { width: 32px; height: 32px; border-radius: 8px; font-size: 0.95rem; }
+  .brand-inline .name { font-weight: 800; color: #fff; letter-spacing: 0.2px; }
 }
 
 /* Laptop/Desktop refinements */

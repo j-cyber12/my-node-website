@@ -40,23 +40,18 @@ app.use((req, res, next) => {
 app.use(express.static(PUBLIC_DIR));
 // JSON parser for API updates
 app.use(express.json());
+// URL-encoded parser for simple HTML forms
+app.use(express.urlencoded({ extended: false }));
 
 // Simple admin gate: accept any of (query ?code=, cookie admin_code, header x-admin-code, or Basic Auth password)
 function requireAdmin(req, res, next) {
-  const challenged = () => {
-    res.set('WWW-Authenticate', 'Basic realm="G4A Admin", charset="UTF-8"');
-    return res.status(401).send('Authentication required');
+  const redirectToLogin = () => {
+    const nextUrl = encodeURIComponent(req.originalUrl || '/access-portal-a94h2f1d');
+    return res.redirect(302, `/admin-login?next=${nextUrl}`);
   };
 
   try {
-    // 1) Query param
-    const q = (req.query && (req.query.code || req.query.auth || req.query.token)) || '';
-    if (typeof q === 'string' && q === ADMIN_CODE) {
-      try { res.cookie('admin_code', ADMIN_CODE, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 }); } catch (_) {}
-      return next();
-    }
-
-    // 2) Cookie
+    // Only trust the cookie set by our login form
     const cookieHeader = req.headers['cookie'] || '';
     if (cookieHeader) {
       const cookies = Object.fromEntries(cookieHeader.split(';').map(p => {
@@ -68,31 +63,14 @@ function requireAdmin(req, res, next) {
       if (cookies['admin_code'] === ADMIN_CODE) return next();
     }
 
-    // 3) Header
-    const headerCode = req.headers['x-admin-code'];
-    if (typeof headerCode === 'string' && headerCode === ADMIN_CODE) return next();
-
-    // 4) Basic Auth
-    const hdr = req.headers['authorization'] || '';
-    if (hdr.startsWith('Basic ')) {
-      const b64 = hdr.slice(6);
-      let pass = '';
-      try {
-        const raw = Buffer.from(b64, 'base64').toString('utf8');
-        const idx = raw.indexOf(':');
-        pass = idx >= 0 ? raw.slice(idx + 1) : raw;
-      } catch (_) {
-        return challenged();
-      }
-      if (pass === ADMIN_CODE) {
-        try { res.cookie('admin_code', ADMIN_CODE, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 }); } catch (_) {}
-        return next();
-      }
+    // If this is an API call, respond with JSON 401
+    if ((req.path || '').startsWith('/api/')) {
+      return res.status(401).json({ error: 'Authentication required' });
     }
-
-    return challenged();
+    // Otherwise redirect to login (works well on mobile browsers too)
+    return redirectToLogin();
   } catch (_) {
-    return challenged();
+    return res.status(401).json({ error: 'Authentication required' });
   }
 }
 
@@ -146,6 +124,10 @@ function newId() {
 // API: Get all products
 app.get('/api/products', (req, res) => {
   const products = readProducts();
+  try {
+    res.set('Cache-Control', 'no-store, max-age=0');
+    res.set('Pragma', 'no-cache');
+  } catch (_) {}
   res.json(products);
 });
 
@@ -154,6 +136,10 @@ app.get('/api/products/:id', (req, res) => {
   const products = readProducts();
   const item = products.find((p) => p.id === req.params.id);
   if (!item) return res.status(404).json({ error: 'Not found' });
+  try {
+    res.set('Cache-Control', 'no-store, max-age=0');
+    res.set('Pragma', 'no-cache');
+  } catch (_) {}
   res.json(item);
 });
 
@@ -236,6 +222,18 @@ app.patch('/api/products/:id', requireAdmin, (req, res) => {
       next.inStock = b;
     }
 
+    // Optional edits: name, price, description
+    if (typeof req.body.name === 'string' && req.body.name.trim()) {
+      next.name = String(req.body.name).trim();
+    }
+    if (typeof req.body.description === 'string') {
+      next.description = String(req.body.description);
+    }
+    if (req.body.price !== undefined) {
+      const num = Number(req.body.price);
+      if (!Number.isNaN(num)) next.price = num;
+    }
+
     products[idx] = next;
     writeProducts(products);
     console.log('Updated product %s inStock=%s', id, String(next.inStock));
@@ -246,10 +244,65 @@ app.patch('/api/products/:id', requireAdmin, (req, res) => {
   }
 });
 
+// API: Delete product
+app.delete('/api/products/:id', requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    const products = readProducts();
+    const idx = products.findIndex((p) => p.id === id);
+    if (idx === -1) return res.status(404).json({ error: 'Not found' });
+    const [removed] = products.splice(idx, 1);
+    writeProducts(products);
+    // Note: uploaded files are not deleted from disk to avoid accidental data loss.
+    res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete product' });
+  }
+});
+
 // Routes for HTML convenience
 // Admin portal (moved to secret-ish path and protected)
 app.get('/access-portal-a94h2f1d', requireAdmin, (req, res) => {
   res.sendFile(path.join(VIEWS_DIR, 'admin.html'));
+});
+
+// Simple admin login page (HTML form)
+app.get('/admin-login', (req, res) => {
+  const nextUrl = typeof req.query.next === 'string' ? req.query.next : '/access-portal-a94h2f1d';
+  const html = `<!DOCTYPE html>
+  <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Admin Login - GadGets4all</title>
+  <link rel="stylesheet" href="/styles.css" />
+  </head><body>
+    <main class="container" style="max-width:520px; padding:2rem 0;">
+      <h1>Admin Login</h1>
+      <form method="post" action="/admin-login" class="card" style="display:grid; gap:0.8rem;">
+        <input type="hidden" name="next" value="${String(nextUrl).replace(/"/g,'&quot;')}" />
+        <label>
+          <span>Access Code</span>
+          <input type="password" name="code" placeholder="Enter admin code" required />
+        </label>
+        <div class="actions"><button type="submit" class="btn primary">Sign In</button></div>
+      </form>
+    </main>
+  </body></html>`;
+  res.status(200).send(html);
+});
+
+app.post('/admin-login', (req, res) => {
+  const code = String(req.body.code || '');
+  const nextUrl = typeof req.body.next === 'string' ? req.body.next : '/access-portal-a94h2f1d';
+  if (code === ADMIN_CODE) {
+    try { res.cookie('admin_code', ADMIN_CODE, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1000 }); } catch (_) {}
+    return res.redirect(302, nextUrl);
+  }
+  return res.status(401).send('Invalid code');
+});
+
+// Sign out: clear cookie and redirect to login
+app.get('/admin-logout', (req, res) => {
+  try { res.clearCookie('admin_code', { httpOnly: true, sameSite: 'lax' }); } catch (_) {}
+  return res.redirect(302, '/admin-login');
 });
 
 app.get('/product', (req, res) => {

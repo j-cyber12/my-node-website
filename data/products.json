@@ -40,18 +40,6 @@
     "createdAt": 1761307495013
   },
   {
-    "id": "demo-1",
-    "name": "Aurora Bluetooth Speaker",
-    "price": 39.99,
-    "description": "Compact wireless speaker with vibrant LED glow and crisp 360° sound.",
-    "images": [
-      "/placeholder.svg"
-    ],
-    "video": null,
-    "createdAt": 1710000000000,
-    "inStock": false
-  },
-  {
     "id": "demo-2",
     "name": "Magnetic Wireless Charger Stand",
     "price": 24.5,

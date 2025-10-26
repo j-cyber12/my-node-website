@@ -7,7 +7,7 @@
       const phoneCoverLink = document.getElementById('mhBtn');
       const phoneBg = document.getElementById('mhBg');
       if (!host && !phoneBg) return;
-      const res = await fetch('/api/products');
+      const res = await fetch(`/api/products?ts=${Date.now()}`);
       if (!res.ok) return;
       const items = await res.json();
       const picks = [];
